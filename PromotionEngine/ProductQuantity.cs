@@ -17,7 +17,9 @@ namespace PromotionEngine
         }
         public bool CanExecute(List<ProductQuantity> products)
         {
-            return !products.Any(x => x.Product.Type == _productOne.Type && x.Quantity > 0) && !products.Any(x => x.Product.Type == _productTwo.Type && x.Quantity > 0);            
+            var a = products.Any(x => x.Product.Type == _productOne.Type && x.Quantity > 0);
+            var b = products.Any(x => x.Product.Type == _productTwo.Type && x.Quantity > 0);
+            return a && b;            
         }
 
         public int Execute(List<ProductQuantity> products)

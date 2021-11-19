@@ -11,7 +11,7 @@ namespace PromotionEngine
         List<IPromotion> _activePromotions = new List<IPromotion>
         {
             new NItmesPromotion(3, new Product("A", 50), 130),
-            new NItmesPromotion(2, new Product("B", 30), 130),
+            new NItmesPromotion(2, new Product("B", 30), 45),
             new CombinationPromotion(new Product("C", 20), new Product("D", 15), 30)
         };
 

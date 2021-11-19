@@ -24,11 +24,66 @@ namespace PromotionEngineTests
                 new ProductQuantity(new Product("A", 50), 1),
                 new ProductQuantity(new Product("B", 30), 1),
                 new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 0)
+            };
+
+            var total = target.Execute(items);
+            Assert.AreEqual(100, total);
+        }
+
+     
+        [TestMethod]
+        public void ScenarioATest()
+        {
+            var target = new PromotionCalculator();
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 0)
+            };
+
+            var total = target.Execute(items);
+            Assert.AreEqual(100, total);
+        }
+        [TestMethod]
+
+        public void ScenarioBTest()
+        {
+            var target = new PromotionCalculator();
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 5),
+                new ProductQuantity(new Product("B", 30), 5),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 0)
+            };
+
+            var total = target.Execute(items);
+            Assert.AreEqual(
+                370, total);
+        }
+
+        [TestMethod]
+
+        public void ScenarioCTest()
+        {
+            var target = new PromotionCalculator();
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 3),
+                new ProductQuantity(new Product("B", 30), 5),
+                new ProductQuantity(new Product("C", 20), 1),
                 new ProductQuantity(new Product("D", 15), 1)
             };
 
             var total = target.Execute(items);
-            Assert.AreEqual(115, total);
+            Assert.AreEqual(
+                280, total);
         }
     } 
     
@@ -195,7 +250,23 @@ namespace PromotionEngineTests
             var actual = target.CanExecute(items);
             Assert.IsFalse(actual);
         }
-        
+
+        [TestMethod]
+        public void PromotionApplicableReturnsTrueTest()
+        {
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15), 30);
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.CanExecute(items);
+            Assert.IsTrue(actual);
+        }
 
         [TestMethod]
         public void NoPromotionApplicableNoitemDReturnsFalseTest()
