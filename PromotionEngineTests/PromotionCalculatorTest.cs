@@ -40,7 +40,7 @@ namespace PromotionEngineTests
         [TestMethod]
         public void NoPromotionsApplicableReturnsFalseTest()
         {
-            var target = new NItmesPromotion(3, new Product("A", 50));
+            var target = new NItmesPromotion(3, new Product("A", 50), 130);
 
             var items = new List<ProductQuantity>
             {
@@ -57,7 +57,7 @@ namespace PromotionEngineTests
         [TestMethod]
         public void PromotionApplicableForProductTypeReturnsTrueTest()
         {
-            var target = new NItmesPromotion(3, new Product("B", 50));
+            var target = new NItmesPromotion(3, new Product("B", 50), 130);
 
             var items = new List<ProductQuantity>
             {
@@ -72,9 +72,26 @@ namespace PromotionEngineTests
         }
 
         [TestMethod]
-        public void PromotionApplicableForProductTypeReturnsFalseWhenOtherProductHasCoorectQuantityTest()
+        public void PromotionNotApplicableReturns0Test()
         {
-            var target = new NItmesPromotion(3, new Product("B", 50));
+            var target = new NItmesPromotion(3, new Product("A", 50), 130);
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.Execute(items);
+            Assert.AreEqual(0, actual);
+        }
+
+        [TestMethod]
+        public void PromotionApplicableOnceTest()
+        {
+            var target = new NItmesPromotion(3, new Product("A", 50), 130);
 
             var items = new List<ProductQuantity>
             {
@@ -84,8 +101,41 @@ namespace PromotionEngineTests
                 new ProductQuantity(new Product("D", 15), 1)
             };
 
-            var actual = target.CanExecute(items);
-            Assert.IsFalse(actual);
+            var actual = target.Execute(items);
+            Assert.AreEqual(130, actual);
         }
+
+        public void PromotionApplicableOnceWithRemainderTest()
+        {
+            var target = new NItmesPromotion(3, new Product("A", 50), 130);
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 4),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.Execute(items);
+            Assert.AreEqual(130, actual);
+        }
+
+        public void PromotionApplicable5timesTest()
+        {
+            var target = new NItmesPromotion(3, new Product("A", 50), 130);
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 16),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.Execute(items);
+            Assert.AreEqual(650, actual);
+        }
+
     }
 }
