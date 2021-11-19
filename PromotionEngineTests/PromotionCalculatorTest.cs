@@ -148,7 +148,7 @@ namespace PromotionEngineTests
         [TestMethod]
         public void NoPromotionApplicableNoitemCQuantityReturnsFalseTest()
         {
-            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15));
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15), 30);
 
             var items = new List<ProductQuantity>
             {
@@ -166,7 +166,7 @@ namespace PromotionEngineTests
         [TestMethod]
         public void NoPromotionApplicableNoitemCReturnsFalseTest()
         {
-            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15));
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15), 30);
 
             var items = new List<ProductQuantity>
             {
@@ -182,7 +182,7 @@ namespace PromotionEngineTests
         [TestMethod]
         public void NoPromotionApplicableNoitemDQuantityReturnsFalseTest()
         {
-            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15));
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15), 30);
 
             var items = new List<ProductQuantity>
             {
@@ -200,7 +200,7 @@ namespace PromotionEngineTests
         [TestMethod]
         public void NoPromotionApplicableNoitemDReturnsFalseTest()
         {
-            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15));
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15), 30);
 
             var items = new List<ProductQuantity>
             {
@@ -214,5 +214,57 @@ namespace PromotionEngineTests
         }
 
 
+        [TestMethod]
+        public void NoPromotionApplicableReturns0Test()
+        {
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15), 30);
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 0)
+            };
+
+            var actual = target.Execute(items);
+            Assert.AreEqual(actual, 0);
+        }
+
+
+        [TestMethod]
+        public void OnePromotionApplicableReturns30Test()
+        {
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15), 30);
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.Execute(items);
+            Assert.AreEqual(actual, 30);
+        }
+
+        [TestMethod]
+        public void NPromotionsApplicableReturnsNtimes30Test()
+        {
+            int quantity = new Random(((int)DateTime.Now.Ticks)).Next(0, 400);
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15), 30);
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), quantity),
+                new ProductQuantity(new Product("D", 15), quantity)
+            };
+
+            var actual = target.Execute(items);
+            Assert.AreEqual(actual, 30 * quantity);
+        }
     }
     }

@@ -8,6 +8,7 @@ namespace PromotionEngine
 {
     public class PromotionCalculator
     {
+        
         public int Execute(List<ProductQuantity> products)
         {
             int total = 0;
