@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PromotionEngine
 {
-    public class NItmesPromotion
+    public class NItmesPromotion 
     {
         private readonly int _numberOfItems;
         private readonly Product _product;
@@ -15,8 +15,9 @@ namespace PromotionEngine
         }
 
         public bool CanExecute(List<ProductQuantity> products) {
-            return products.Any(x=> x.Quantity >= _numberOfItems);
+            return products.Any(x=> x.Product.Type == _product.Type && x.Quantity >= _numberOfItems);
         }
+
     }
 
    

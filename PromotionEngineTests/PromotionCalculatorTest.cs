@@ -55,9 +55,9 @@ namespace PromotionEngineTests
         }
 
         [TestMethod]
-        public void PromotionApplicableReturnsTrueTest()
+        public void PromotionApplicableForProductTypeReturnsTrueTest()
         {
-            var target = new NItmesPromotion(3, new Product("A", 50));
+            var target = new NItmesPromotion(3, new Product("B", 50));
 
             var items = new List<ProductQuantity>
             {
@@ -69,6 +69,23 @@ namespace PromotionEngineTests
 
             var actual = target.CanExecute(items);
             Assert.IsTrue(actual);
+        }
+
+        [TestMethod]
+        public void PromotionApplicableForProductTypeReturnsFalseWhenOtherProductHasCoorectQuantityTest()
+        {
+            var target = new NItmesPromotion(3, new Product("B", 50));
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 3),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.CanExecute(items);
+            Assert.IsFalse(actual);
         }
     }
 }
