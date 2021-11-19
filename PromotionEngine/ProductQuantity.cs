@@ -1,5 +1,25 @@
-﻿namespace PromotionEngine
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace PromotionEngine
 {
+    public class NItmesPromotion
+    {
+        private readonly int _numberOfItems;
+        private readonly Product _product;
+
+        public NItmesPromotion(int numberOfItems, Product product)
+        {
+            _numberOfItems = numberOfItems;
+            _product = product;
+        }
+
+        public bool CanExecute(List<ProductQuantity> products) {
+            return products.Any(x=> x.Quantity >= _numberOfItems);
+        }
+    }
+
+   
     public class ProductQuantity
     {
         public ProductQuantity(Product product, int quantity)

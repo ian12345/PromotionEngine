@@ -17,7 +17,7 @@ namespace PromotionEngineTests
         [TestMethod]
         public void NoPromotionsApplicableTest()
         {
-            var con = new PromotionCalculator();
+            var target = new PromotionCalculator();
 
             var items = new List<ProductQuantity>
             {
@@ -27,8 +27,48 @@ namespace PromotionEngineTests
                 new ProductQuantity(new Product("D", 15), 1)
             };
 
-            var total = con.Execute(items);
+            var total = target.Execute(items);
             Assert.AreEqual(115, total);
+        }
+    } 
+    
+    [TestClass]
+    public class NItmesPromotionTest
+    {
+        
+
+        [TestMethod]
+        public void NoPromotionsApplicableReturnsFalseTest()
+        {
+            var target = new NItmesPromotion(3, new Product("A", 50));
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.CanExecute(items);
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void PromotionApplicableReturnsTrueTest()
+        {
+            var target = new NItmesPromotion(3, new Product("A", 50));
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 3),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.CanExecute(items);
+            Assert.IsTrue(actual);
         }
     }
 }
