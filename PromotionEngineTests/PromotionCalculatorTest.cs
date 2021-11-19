@@ -138,4 +138,81 @@ namespace PromotionEngineTests
         }
 
     }
-}
+
+
+    [TestClass]
+    public class CombinationPromotionTest
+    {
+
+
+        [TestMethod]
+        public void NoPromotionApplicableNoitemCQuantityReturnsFalseTest()
+        {
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15));
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 0),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.CanExecute(items);
+            Assert.IsFalse(actual);
+        }
+        
+
+        [TestMethod]
+        public void NoPromotionApplicableNoitemCReturnsFalseTest()
+        {
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15));
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("D", 15), 1)
+            };
+
+            var actual = target.CanExecute(items);
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void NoPromotionApplicableNoitemDQuantityReturnsFalseTest()
+        {
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15));
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1),
+                new ProductQuantity(new Product("D", 15), 0)
+            };
+
+            var actual = target.CanExecute(items);
+            Assert.IsFalse(actual);
+        }
+        
+
+        [TestMethod]
+        public void NoPromotionApplicableNoitemDReturnsFalseTest()
+        {
+            var target = new CombinationPromotion(new Product("C", 20), new Product("D", 15));
+
+            var items = new List<ProductQuantity>
+            {
+                new ProductQuantity(new Product("A", 50), 1),
+                new ProductQuantity(new Product("B", 30), 1),
+                new ProductQuantity(new Product("C", 20), 1)
+            };
+
+            var actual = target.CanExecute(items);
+            Assert.IsFalse(actual);
+        }
+
+
+    }
+    }

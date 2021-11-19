@@ -15,7 +15,7 @@ namespace PromotionEngine
         }
         public bool CanExecute(List<ProductQuantity> products)
         {
-            throw new System.NotImplementedException();
+            return !products.Any(x => x.Product.Type == _productOne.Type && x.Quantity > 0) && !products.Any(x => x.Product.Type == _productTwo.Type && x.Quantity > 0);            
         }
 
         public int Execute(List<ProductQuantity> products)
