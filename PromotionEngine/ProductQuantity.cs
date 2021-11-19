@@ -3,6 +3,28 @@ using System.Linq;
 
 namespace PromotionEngine
 {
+    public class CombinationPromotion : IPromotion
+    {
+        private readonly List<Product> _promotionProducts;
+
+        public CombinationPromotion(List<Product> products)
+        {
+
+            _promotionProducts = products;
+
+        }
+        public bool CanExecute(List<ProductQuantity> products)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int Execute(List<ProductQuantity> products)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+
     public class NItmesPromotion : IPromotion
     {
         private readonly int _numberOfItems;
@@ -28,6 +50,8 @@ namespace PromotionEngine
             foreach (var prod in productsEligible)
             {
                 var numberOfTimesPromotinApplies = prod.Quantity / _numberOfItems;
+        
+                
                 total += numberOfTimesPromotinApplies * _promotionPrice;
             }
             return total;
