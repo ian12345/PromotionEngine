@@ -5,13 +5,13 @@ namespace PromotionEngine
 {
     public class CombinationPromotion : IPromotion
     {
-        private readonly List<Product> _promotionProducts;
+        private readonly Product _productOne;
+        private Product _productTwo;
 
-        public CombinationPromotion(List<Product> products)
+        public CombinationPromotion(Product productOne, Product productTwo)
         {
-
-            _promotionProducts = products;
-
+            _productOne = productOne;
+            _productTwo = productTwo;
         }
         public bool CanExecute(List<ProductQuantity> products)
         {
