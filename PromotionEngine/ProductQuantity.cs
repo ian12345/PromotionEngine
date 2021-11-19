@@ -26,7 +26,19 @@ namespace PromotionEngine
             int productTwoQuantity = products.Where(x => x.Product.Type == _productTwo.Type && x.Quantity > 0).Sum(x=>x.Quantity);
             var quants = new List<int> { productOneQuantity, productTwoQuantity };
             int numberOfTImesOfferApplies = quants.Min();
+
+            RemovePromotionEligbleProducts(products, numberOfTImesOfferApplies);
             return numberOfTImesOfferApplies * _promotionPrice;
+        }
+
+        private void RemovePromotionEligbleProducts(List<ProductQuantity> products, int numberOfTImesOfferApplies)
+        {
+            if (numberOfTImesOfferApplies == 0) return;
+            var productOne = products.First(x => x.Product.Type == _productOne.Type);
+            var productTwo = products.First(x => x.Product.Type == _productTwo.Type);
+            productOne.Quantity -= numberOfTImesOfferApplies;
+            productTwo.Quantity -= numberOfTImesOfferApplies;
+
         }
     }
 
@@ -55,12 +67,20 @@ namespace PromotionEngine
             int total = 0;
             foreach (var prod in productsEligible)
             {
-                var numberOfTimesPromotinApplies = prod.Quantity / _numberOfItems;
-        
-                
-                total += numberOfTimesPromotinApplies * _promotionPrice;
+                var numberOfTimesPromotionApplies = prod.Quantity / _numberOfItems;
+
+                RemovePromotionEligbleProducts(prod, numberOfTimesPromotionApplies);
+                total += numberOfTimesPromotionApplies * _promotionPrice;
             }
+           
             return total;
+        }
+
+        private void RemovePromotionEligbleProducts(ProductQuantity prod, int numberOfTImesOfferApplies)
+        {
+            if (numberOfTImesOfferApplies == 0) return;
+            prod.Quantity -= numberOfTImesOfferApplies * _numberOfItems;           
+
         }
     }
 
